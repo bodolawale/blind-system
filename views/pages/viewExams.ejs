@@ -1,0 +1,31 @@
+<h1 class="display-4"><%=exam.code%>       <span><%= exam.title %></span></h1>
+<%if (exam.users.length > 0) {%>
+  <%let score%>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Matriculation Number</th>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Score</th>
+      </tr>
+    </thead>
+    <tbody>
+        <% exam.users.forEach((user,position) => { %>
+          <% exam.users[position].examsScore.forEach(item => { %>
+            <%if (item[exam.id]) { %>
+            <%  score = item[exam.id] %>
+            <%}%>
+          <%})%>
+          <tr>
+            <td><%= exam.users[position].matric %></td>
+            <td><%= exam.users[position].firstName %></td>
+            <td><%= exam.users[position].lastName %></td>
+            <td><%= score %></td>
+          </tr>
+        <% }) %>
+    </tbody>
+<%} else {%>
+  <h1>No student has taken this exam</h1>
+<%}%>
+</table>

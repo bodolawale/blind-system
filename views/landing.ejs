@@ -1,0 +1,33 @@
+<script>
+  const user = <%- JSON.stringify(user)%>
+  localStorage.setItem('user', JSON.stringify({'user': user}));
+</script>
+<% const examsId = [] %>
+<% user.exams.forEach((exam) => {
+  examsId.push(exam.id)
+})%>
+<h1 class="display-4">Available Examinations</h1>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Code</th>
+      <th>Title</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% exams.forEach((exam) => { %>
+      <% if (!examsId.includes(exam.id)) {%>
+        <tr>
+          <td><%= exam.code %></td>
+          <td><%= exam.title %></td>
+          <td>
+            <form action="/exams/takeExam/:<%=exam.id%>" class="d-inline">
+              <input type="submit" value="Take Exam" class="btn btn-success">
+            </form>
+          </td>
+        </tr>
+      <% } %>
+    <% }) %>
+  </tbody>
+</table>

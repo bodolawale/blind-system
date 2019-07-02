@@ -1,0 +1,305 @@
+<style>
+  .main-div{
+    margin-top: 4em
+  }
+</style>
+<!-- <script type="text/javascript" src="/js/takeExams.js"></script> -->
+<script>
+//   $(document).ready(() => {
+//     let count = 0;
+//     const answers = [];
+//     let exams = <%-JSON.stringify(exam)%>;
+//     let user = JSON.parse(localStorage.getItem('user'));
+//     user = user.user;
+//     const available_voices = window.speechSynthesis.getVoices();
+//     var english_voice = '';
+//     for(let i=0; i<available_voices.length; i++) {
+//       if(available_voices[i].lang === 'en-US') {
+//         english_voice = available_voices[i];
+//         break;
+//       }
+//     }
+//     if(english_voice === '')
+//       english_voice = available_voices[0];
+
+//     let utter = new SpeechSynthesisUtterance();
+//     utter.rate = 1;
+//     utter.pitch = 0.5;
+//     utter.text = `Hello ${user.firstName} Welcome to your ${exams.title} examination. Press any key to continue`;
+//     utter.voice = english_voice;
+//     let hasStarted = false;
+//     let repeat = false;
+//     let beenPressed = false;
+//     let questionPressed = false;
+    
+
+//   $(document).keypress(async (e) => {
+//     if((!hasStarted) && (!beenPressed)) {
+//       beenPressed = true;
+//       await new Promise(function(resolve) {
+//         utter.onend = resolve;
+//         window.speechSynthesis.speak(utter);
+//       });
+//     }
+//   });
+//   $(document).keypress(async (e) => {
+//     let questionSpeech = new SpeechSynthesisUtterance();
+//     questionSpeech.rate = 1;
+//     questionSpeech.pitch = 0.5;
+
+//     if(count === exams.questions.length){
+//       const score = calculateScore(exams.questions, answers);
+//       questionSpeech.text = `Cogratulations you have come to the end of your exams. You scored ${score} question correctly.`;
+//       await new Promise(function(resolve) {
+//         questionSpeech.onend = resolve;
+//         window.speechSynthesis.speak(questionSpeech);
+//       });
+//       const id = `${user.id}-${exams.id}-${score}`
+//       // await Users.addToCollection(user.id, 'exams').members([exams.id]);
+//       window.location = `/users/updateExams/:${id}`;
+//     } else {
+//       questionSpeech.text =  `Question ${count+1}. ${exams.questions[count].details}. Option A. ${exams.questions[count].a}. Option B. ${exams.questions[count].b}. Option C. ${exams.questions[count].c}. Option D. ${exams.questions[count].d}.`
+//       questionSpeech.voice = english_voice;
+
+//       if((hasStarted) && (!repeat)){
+//         questionPressed = true
+//         await new Promise(function(resolve) {
+//           questionSpeech.onend = resolve;
+//           window.speechSynthesis.speak(questionSpeech);
+//         });
+//       }
+
+//       if((hasStarted) && (repeat)) {
+//         if((e.which === 65) || (e.which === 97)) {
+//           console.log('A pressed');
+//           answers.push('a');
+//           count += 1;
+//           questionSpeech.text = 'You chose Option A as your answer. Press another key to move to the next question';
+//           await new Promise(function(resolve) {
+//             questionSpeech.onend = resolve;
+//             window.speechSynthesis.speak(questionSpeech);
+//           });
+//           repeat = false;
+//         }else if((e.which === 83) || (e.which === 115)) {
+//           console.log('B was pressed');
+//           answers.push('b');
+//           count += 1;
+//           questionSpeech.text = 'You chose Option B as your answer. Press another key to move to the next question';
+//           await new Promise(function(resolve) {
+//             questionSpeech.onend = resolve;
+//             window.speechSynthesis.speak(questionSpeech);
+//           });
+//           repeat = false;
+//         }else if((e.which === 68) || (e.which === 100)) {
+//           console.log('C was pressed');
+//           answers.push('c');
+//           count += 1;
+//           questionSpeech.text = 'You chose Option C as your answer. Press another key to move to the next question';
+//           await new Promise(function(resolve) {
+//             questionSpeech.onend = resolve;
+//             window.speechSynthesis.speak(questionSpeech);
+//           });
+//           repeat = false;
+//         } else if((e.which === 70) || (e.which === 102)) {
+//           console.log('D was pressed');
+//           answers.push('d');
+//           count += 1;
+//           questionSpeech.text = 'You chose Option D as your answer. Press another key to move to the next question';
+//           await new Promise(function(resolve) {
+//             questionSpeech.onend = resolve;
+//             window.speechSynthesis.speak(questionSpeech);
+//           });
+//           repeat = false;
+//         } else {
+//           await new Promise(function(resolve) {
+//             questionSpeech.onend = resolve;
+//             window.speechSynthesis.speak(questionSpeech);
+//           });
+//         }
+//       }
+//       repeat = true;
+//       hasStarted = true;
+//     }
+//   })
+// });
+// function calculateScore(questions, answers) {
+//   let score = 0;
+//   questions.forEach((question, position) => {
+//     if (question.correct === answers[position]) {
+//       score += 1;
+//     }
+//   });
+//   return score;
+// }
+</script>
+<script>
+    $(document).ready(() => {
+    let count = 0;
+    const answers = [];
+    let exams = <%-JSON.stringify(exam)%>;
+    let user = JSON.parse(localStorage.getItem('user'));
+    user = user.user;
+    const available_voices = window.speechSynthesis.getVoices();
+    var english_voice = '';
+    for(let i=0; i<available_voices.length; i++) {
+      if(available_voices[i].lang === 'en-US') {
+        english_voice = available_voices[i];
+        break;
+      }
+    }
+    if(english_voice === '')
+      english_voice = available_voices[0];
+
+    let greeting = new SpeechSynthesisUtterance();
+    greeting.rate = 1;
+    greeting.pitch = 0.5;
+    greeting.text = `Hello ${user.firstName} Welcome to your ${exams.title} examination. Press any key to continue`;
+    greeting.voice = english_voice;
+    let hasStarted = false;
+    let repeat = false;
+    let beenPressed = false;
+    let answerChosen = false;
+    
+
+  $(document).keypress(async (e) => {
+    console.log(e.which)
+    if((!hasStarted) && (!beenPressed)) {
+      beenPressed = true;
+      await new Promise(function(resolve) {
+        greeting.onend = () => {
+          hasStarted = true;
+          beenPressed = false;
+          resolve;
+        };
+        window.speechSynthesis.speak(greeting);
+      });
+    }
+
+    if(count === exams.questions.length){
+      const score = calculateScore(exams.questions, answers);
+      let farewell = new SpeechSynthesisUtterance();
+      farewell.rate = 1;
+      farewell.pitch = 0.5;
+      farewell.text = `Cogratulations you have come to the end of your exams. You scored ${score} question correctly.`;
+      farewell.voice = english_voice;
+      await new Promise(function(resolve) {
+        farewell.onend = resolve;
+        window.speechSynthesis.speak(farewell);
+      });
+      const id = `${user.id}-${exams.id}-${score}`
+      localStorage.clear();
+      window.location = `/users/updateExams/:${id}`;
+    } else {
+      let questionSpeech = new SpeechSynthesisUtterance();
+      questionSpeech.rate = 1;
+      questionSpeech.pitch = 0.5;
+      questionSpeech.voice = english_voice;
+      questionSpeech.text =  `Question ${count+1}. ${exams.questions[count].details}. Option A. ${exams.questions[count].a}. Option B. ${exams.questions[count].b}. Option C. ${exams.questions[count].c}. Option D. ${exams.questions[count].d}.`
+      if((hasStarted) && (!repeat) && (!beenPressed)){
+        beenPressed = true
+        await new Promise(function(resolve) {
+          questionSpeech.onend = () => {
+            repeat = true;
+            beenPressed = false;
+            resolve;
+          };
+          window.speechSynthesis.speak(questionSpeech);
+        });
+      }
+      if((hasStarted) && (repeat) && (!beenPressed)) {
+        beenPressed = true;
+        if((e.which === 65) || (e.which === 97)) {
+          console.log('A pressed');
+          answers.push('a');
+          count += 1;
+          questionSpeech.text = 'You chose Option A as your answer. Press another key to move to the next question';
+          await new Promise(function(resolve) {
+            questionSpeech.onend = () => {
+              repeat = false;
+              beenPressed = false;
+              resolve;
+            };
+            window.speechSynthesis.speak(questionSpeech);
+          });
+        }else if((e.which === 83) || (e.which === 115)) {
+          console.log('B was pressed');
+          answers.push('b');
+          count += 1;
+          questionSpeech.text = 'You chose Option B as your answer. Press another key to move to the next question';
+          await new Promise(function(resolve) {
+            questionSpeech.onend = () => {
+              repeat = false;
+              beenPressed = false;
+              resolve;
+            };
+            window.speechSynthesis.speak(questionSpeech);
+          });
+        }else if((e.which === 68) || (e.which === 100)) {
+          console.log('C was pressed');
+          answers.push('c');
+          count += 1;
+          questionSpeech.text = 'You chose Option C as your answer. Press another key to move to the next question';
+          await new Promise(function(resolve) {
+            questionSpeech.onend = () => {
+              repeat = false;
+              beenPressed = false;
+              resolve;
+            };
+            window.speechSynthesis.speak(questionSpeech);
+          });
+        } else if((e.which === 70) || (e.which === 102)) {
+          console.log('D was pressed');
+          answers.push('d');
+          count += 1;
+          questionSpeech.text = 'You chose Option D as your answer. Press another key to move to the next question';
+          await new Promise(function(resolve) {
+            questionSpeech.onend = () => {
+              repeat = false;
+              beenPressed = false;  
+              resolve;
+            };
+            window.speechSynthesis.speak(questionSpeech);
+          });
+        } else {
+          await new Promise(function(resolve) {
+            questionSpeech.onend = () => {
+              beenPressed = false;
+              resolve;
+            };
+            window.speechSynthesis.speak(questionSpeech);
+          });
+        }
+      }
+    }
+  })
+});
+function calculateScore(questions, answers) {
+  let score = 0;
+  questions.forEach((question, position) => {
+    if (question.correct === answers[position]) {
+      score += 1;
+    }
+  });
+  return score;
+}
+</script>
+
+<div class="main-div">
+  <h2><%=exam.code%>       <span><%= exam.title %></span></h2>
+  <% exam.questions.forEach((question,position) => { %>
+    <div class="card">
+      <div class="card-header">
+        Question <%=(position + 1)%>
+      </div>
+      <div class="card-body">
+        <blockquote class="blockquote mb-0">
+          <p><%= question.details %></p>
+          <footer class="blockquote-footer">A) <%= question.a %></footer>
+          <footer class="blockquote-footer">B) <%= question.b %></footer>
+          <footer class="blockquote-footer">C) <%= question.c %></footer>
+          <footer class="blockquote-footer">D) <%= question.d %></footer>
+        </blockquote>
+      </div>
+    </div>
+  <% }) %>
+</div>

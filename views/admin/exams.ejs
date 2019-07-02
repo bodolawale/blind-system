@@ -1,0 +1,23 @@
+<h1 class="display-4">All Examinations</h1>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Code</th>
+      <th>Title</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% exams.forEach((exam) => { %>
+      <tr>
+        <td><%= exam.code %></td>
+        <td><%= exam.title %></td>
+        <td>
+          <form action="/admin/viewExam/<%=exam.id%>" class="d-inline">
+            <input type="submit" value="View Participants" class="btn btn-success">
+          </form>
+        </td>
+      </tr>
+    <% }) %>
+  </tbody>
+</table>
